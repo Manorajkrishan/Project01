@@ -1,0 +1,303 @@
+.quotation-display {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .search-section {
+    margin-bottom: 20px;
+  }
+  
+  .search-section input {
+    padding: 5px;
+    margin-right: 10px;
+  }
+  
+  .product-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .product-list li {
+    padding: 10px 0;
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .invoice-section {
+    margin-top: 20px;
+  }
+  
+  .quotation-section {
+    margin-top: 20px;
+  }
+  
+
+
+
+  .quotation-display {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-section {
+  width: 50%;
+}
+
+.right-section {
+  width: 45%;
+}
+
+.quotation-sheet {
+  margin-top: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+.quotation-display {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.left-section, .right-section {
+  width: 45%;
+  margin: 0 10px;
+}
+
+.product-list {
+  margin-top: 20px;
+}
+
+.quotation-sheet {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+input[type="number"] {
+  width: 40px;
+  margin: 0 10px;
+}
+
+button {
+  margin-left: 10px;
+}
+
+h4 {
+  margin-top: 20px;
+}
+
+
+.quotation-display {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.left-section, .right-section {
+  width: 45%;
+  margin: 0 10px;
+}
+
+.product-list, .quotation-sheet {
+  margin-top: 20px;
+}
+
+.quotation-sheet {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-left: 10px;
+}
+
+h4 {
+  margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.quotation-display {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.left-section, .right-section {
+  width: 45%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+}
+
+.search-section input {
+  width: 80%;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-section button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-section button:hover {
+  background-color: #0056b3;
+}
+
+.product-list ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.product-list li {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-list button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.product-list button:hover {
+  background-color: #218838;
+}
+
+.quotation-sheet {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.quotation-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.quotation-header-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.invoice-number {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.qr-code {
+  text-align: right;
+}
+
+.quotation-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.quotation-table th, .quotation-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.quotation-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.quotation-table td button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.quotation-table td button:hover {
+  background-color: #c82333;
+}
+
+h4 {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 18px;
+  color: #333;
+}
+
+p {
+  color: #666;
+}

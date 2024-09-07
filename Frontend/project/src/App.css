@@ -1,0 +1,56 @@
+
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.search-section {
+  margin: 20px;
+}
+
+.product-details {
+  margin-top: 10px;
+}
+
+.quotation-section {
+  margin: 20px;
+}
+
+
+/* Ensure the html and body take up the full height of the viewport */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Flexbox setup to ensure footer stays at the bottom */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height of the viewport */
+}
+
+/* Main content area takes up remaining space */
+.App-content {
+  flex: 1;
+}
+
+.App-footer {
+  background-color: #282c34;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.App-footer a {
+  color: white;
+  text-decoration: none;
+}
+
+.App-footer a:hover {
+  text-decoration: underline;
+}
+
