@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-// Import QRCodeCanvas instead of QRCode
 import { QRCodeCanvas } from 'qrcode.react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import '../CSS/Quotationdisplay.css';
 
-
 const QuotationDisplay = () => {
-  // State for the list of products
   const [productList, setProductList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [quotation, setQuotation] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [dateTime, setDateTime] = useState('');
+  const [qrCodeData, setQRCodeData] = useState('');
 
-  // Mock data for products with details (can be replaced with real API data)
+  // Mock data for products with details
   const mockProducts = [
     { id: 1, name: 'Laptop', brand: 'Dell', specs: '8GB RAM, 256GB SSD', price: 1000, available: true },
     { id: 2, name: 'Keyboard', brand: 'Logitech', specs: 'Mechanical', price: 100, available: true },
@@ -33,10 +33,31 @@ const QuotationDisplay = () => {
   // Fetch data or use mock data on component mount
   useEffect(() => {
     setProductList(mockProducts);
-    setInvoiceNumber(generateInvoiceNumber());
-    const now = new Date();
-    setDateTime(now.toLocaleString());
+
+    // Load quotation data from local storage
+    const storedQuotation = localStorage.getItem('quotation');
+    if (storedQuotation) {
+      const parsedQuotation = JSON.parse(storedQuotation);
+      setInvoiceNumber(parsedQuotation.invoiceNumber);
+      setDateTime(parsedQuotation.dateTime);
+      setQuotation(parsedQuotation.products);
+    } else {
+      const newInvoiceNumber = generateInvoiceNumber();
+      setInvoiceNumber(newInvoiceNumber);
+      const now = new Date();
+      setDateTime(now.toLocaleString());
+    }
   }, []);
+
+  useEffect(() => {
+    // Update local storage whenever the quotation changes
+    localStorage.setItem('quotation', JSON.stringify({
+      invoiceNumber,
+      dateTime,
+      products: quotation,
+      totalAmount: calculateTotal(),
+    }));
+  }, [quotation, invoiceNumber, dateTime]);
 
   // Handle search functionality for product name or specs
   const handleSearch = () => {
@@ -116,12 +137,46 @@ const QuotationDisplay = () => {
     });
   };
 
+  // Generate and download PDF
+  const generatePDF = async () => {
+    const doc = new jsPDF();
+    const pdfContent = document.querySelector('.right-section');
+
+    // Convert content to canvas
+    const canvas = await html2canvas(pdfContent);
+    const imgData = canvas.toDataURL('image/png');
+    const imgWidth = 210; // A4 width in mm
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+    const pdfHeight = imgHeight > 297 ? imgHeight / 2 : imgHeight; // A4 height in mm
+
+    // Add image to PDF
+    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, pdfHeight);
+    doc.save(`Quotation_${invoiceNumber}.pdf`);
+  };
+
+  // Share options
+  const handleShare = () => {
+    const url = generateQRCodeData();
+    const encodedUrl = encodeURIComponent(url);
+    const emailSubject = `Quotation ${invoiceNumber}`;
+    const emailBody = `Please find the attached quotation: ${url}`;
+    const whatsappMessage = `Here is your quotation: ${url}`;
+    
+    // Sharing via email
+    window.open(`mailto:?subject=${emailSubject}&body=${emailBody}`, '_blank');
+    
+    // Sharing via WhatsApp
+    window.open(`https://wa.me/?text=${whatsappMessage}`, '_blank');
+  };
+
+  useEffect(() => {
+    setQRCodeData(generateQRCodeData());
+  }, [quotation, invoiceNumber, dateTime]);
+
   return (
     <div className="quotation-display">
       <div className="left-section">
         <h2>Product Search</h2>
-
-        {/* Search for a product */}
         <div className="search-section">
           <input
             type="text"
@@ -131,8 +186,6 @@ const QuotationDisplay = () => {
           />
           <button onClick={handleSearch}>Search</button>
         </div>
-
-        {/* Display product list only after search */}
         {filteredProducts.length > 0 ? (
           <div className="product-list">
             <h3>Search Results:</h3>
@@ -150,7 +203,6 @@ const QuotationDisplay = () => {
         ) : null}
       </div>
 
-      {/* Quotation Display on the Right Side */}
       <div className="right-section">
         <div className="quotation-header-info">
           <div className="invoice-number">
@@ -158,8 +210,7 @@ const QuotationDisplay = () => {
             <p>{dateTime}</p>
           </div>
           <div className="qr-code">
-            {/* Generate QR code */}
-            <QRCodeCanvas value={generateQRCodeData()} />
+            <QRCodeCanvas value={qrCodeData} />
           </div>
         </div>
         <h2>Quotation</h2>
@@ -195,14 +246,14 @@ const QuotationDisplay = () => {
                 </tbody>
               </table>
               <h4>Total Amount: ${calculateTotal()}</h4>
+              <button onClick={generatePDF}>Download PDF</button>
+              <button onClick={handleShare}>Share</button>
             </div>
           ) : (
             <p>No products in the quotation.</p>
           )}
         </div>
       </div>
-     
-     
     </div>
   );
 };
