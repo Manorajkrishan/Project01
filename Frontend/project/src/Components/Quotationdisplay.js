@@ -12,16 +12,14 @@ const QuotationDisplay = () => {
   const [invoiceNumber, setInvoiceNumber] = useState('');
   const [dateTime, setDateTime] = useState('');
   const [qrCodeData, setQRCodeData] = useState('');
+  const [showShareOptions, setShowShareOptions] = useState(false);
 
   // Mock data for products with details
   const mockProducts = [
-    { id: 1, name: 'Laptop', brand: 'Dell', specs: '8GB RAM, 256GB SSD', price: 1000, available: true },
-    { id: 2, name: 'Keyboard', brand: 'Logitech', specs: 'Mechanical', price: 100, available: true },
-    { id: 3, name: 'Mouse', brand: 'HP', specs: 'Wireless', price: 50, available: false },
-    { id: 4, name: 'Monitor', brand: 'Samsung', specs: '27 inch, 1080p', price: 300, available: true },
-    { id: 5, name: 'RAM', brand: 'Corsair', specs: '4GB, DDR4', price: 40, available: true },
-    { id: 6, name: 'RAM', brand: 'Kingston', specs: '4GB, DDR3', price: 35, available: true },
-    { id: 7, name: 'RAM', brand: 'Crucial', specs: '8GB, DDR4', price: 70, available: true },
+    { id: 1, name: 'Product 1', brand: 'Brand A', specs: '4GB RAM', price: 100, available: true },
+    { id: 2, name: 'Product 2', brand: 'Brand B', specs: '8GB RAM', price: 200, available: true },
+    { id: 3, name: 'Product 3', brand: 'Brand C', specs: '16GB RAM', price: 300, available: false },
+    // Add more products as needed
   ];
 
   // Generate unique invoice number
@@ -116,7 +114,7 @@ const QuotationDisplay = () => {
     });
   };
 
-  // Generate and download PDF
+  // Generate and store PDF
   const generatePDF = async () => {
     const doc = new jsPDF();
     const pdfContent = document.querySelector('.right-section');
@@ -130,24 +128,37 @@ const QuotationDisplay = () => {
 
     // Add image to PDF
     doc.addImage(imgData, 'PNG', 0, 0, imgWidth, pdfHeight);
-    doc.save(`Quotation_${invoiceNumber}.pdf`);
+    return doc.output('blob');
   };
 
-  // Share options
-  const handleShare = async () => {
-    // Generate the PDF first
-    generatePDF();
+  // Trigger file download
+  const downloadPDF = async () => {
+    const pdfBlob = await generatePDF();
+    const url = URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Quotation_${invoiceNumber}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
-    // Share the PDF via email and WhatsApp
-    const emailSubject = `Quotation ${invoiceNumber}`;
-    const emailBody = `Please find the attached quotation PDF.`;
-    const whatsappMessage = `Here is your quotation PDF.`;
+  // Handle share options
+  const handleShareOption = async (option) => {
+    const pdfBlob = await generatePDF();
+    const url = URL.createObjectURL(pdfBlob);
 
-    // Open email client with the subject and body
-    window.open(`mailto:?subject=${emailSubject}&body=${emailBody}`, '_blank');
+    if (option === 'email') {
+      // For email, the user has to manually attach the file in their email client
+      alert('PDF saved. You can now attach it manually to your email.');
+    } else if (option === 'whatsapp') {
+      // Open WhatsApp web with a pre-filled message; file upload needs to be done manually
+      alert('PDF saved. You can now upload it manually in WhatsApp.');
+      window.open(`https://web.whatsapp.com/`, '_blank');
+    }
 
-    // Open WhatsApp with the message
-    window.open(`https://wa.me/?text=${whatsappMessage}`, '_blank');
+    // Hide share options after selection
+    setShowShareOptions(false);
+    URL.revokeObjectURL(url);
   };
 
   useEffect(() => {
@@ -202,10 +213,9 @@ const QuotationDisplay = () => {
                 <thead>
                   <tr>
                     <th>Product</th>
-                    <th>Brand</th>
-                    <th>Specs</th>
                     <th>Price</th>
                     <th>Quantity</th>
+                    <th>Total</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -213,27 +223,37 @@ const QuotationDisplay = () => {
                   {quotation.map((product) => (
                     <tr key={product.id}>
                       <td>{product.name}</td>
-                      <td>{product.brand}</td>
-                      <td>{product.specs}</td>
                       <td>${product.price}</td>
-                      <td>{product.quantity}</td>
                       <td>
-                        <button onClick={() => increaseQuantity(product.id)}>+</button>
                         <button onClick={() => decreaseQuantity(product.id)}>-</button>
-                        <button onClick={() => removeFromQuotation(product.id)}>Delete</button>
+                        {product.quantity}
+                        <button onClick={() => increaseQuantity(product.id)}>+</button>
+                      </td>
+                      <td>${(product.price * product.quantity).toFixed(2)}</td>
+                      <td>
+                        <button onClick={() => removeFromQuotation(product.id)}>Remove</button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
               <h4>Total Amount: ${calculateTotal()}</h4>
-              <button onClick={generatePDF}>Download PDF</button>
-              <button onClick={handleShare}>Share</button>
+              <button onClick={downloadPDF}>Generate PDF</button>
+              <button onClick={() => setShowShareOptions(true)}>Share</button>
             </div>
           ) : (
             <p>No products added to the quotation.</p>
           )}
         </div>
+
+        {/* Share Options Modal */}
+        {showShareOptions && (
+          <div className="share-options">
+            <button onClick={() => handleShareOption('email')}>Share via Email</button>
+            <button onClick={() => handleShareOption('whatsapp')}>Share via WhatsApp</button>
+            <button onClick={() => setShowShareOptions(false)}>Close</button>
+          </div>
+        )}
       </div>
     </div>
   );
