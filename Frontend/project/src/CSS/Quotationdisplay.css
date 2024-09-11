@@ -1,173 +1,4 @@
 .quotation-display {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .search-section {
-    margin-bottom: 20px;
-  }
-  
-  .search-section input {
-    padding: 5px;
-    margin-right: 10px;
-  }
-  
-  .product-list ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .product-list li {
-    padding: 10px 0;
-  }
-  
-  button {
-    padding: 5px 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  .invoice-section {
-    margin-top: 20px;
-  }
-  
-  .quotation-section {
-    margin-top: 20px;
-  }
-  
-
-
-
-  .quotation-display {
-  display: flex;
-  justify-content: space-between;
-}
-
-.left-section {
-  width: 50%;
-}
-
-.right-section {
-  width: 45%;
-}
-
-.quotation-sheet {
-  margin-top: 20px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 10px;
-}
-.quotation-display {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.left-section, .right-section {
-  width: 45%;
-  margin: 0 10px;
-}
-
-.product-list {
-  margin-top: 20px;
-}
-
-.quotation-sheet {
-  margin-top: 20px;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 10px;
-}
-
-input[type="number"] {
-  width: 40px;
-  margin: 0 10px;
-}
-
-button {
-  margin-left: 10px;
-}
-
-h4 {
-  margin-top: 20px;
-}
-
-
-.quotation-display {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.left-section, .right-section {
-  width: 45%;
-  margin: 0 10px;
-}
-
-.product-list, .quotation-sheet {
-  margin-top: 20px;
-}
-
-.quotation-sheet {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 10px;
-}
-
-button {
-  margin-left: 10px;
-}
-
-h4 {
-  margin-top: 20px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-.quotation-display {
   display: flex;
   justify-content: space-between;
   margin: 20px;
@@ -184,6 +15,10 @@ h4 {
 
 h2 {
   color: #333;
+}
+
+.search-section {
+  margin-bottom: 20px;
 }
 
 .search-section input {
@@ -205,6 +40,10 @@ h2 {
 
 .search-section button:hover {
   background-color: #0056b3;
+}
+
+.product-list {
+  margin-top: 20px;
 }
 
 .product-list ul {
@@ -237,11 +76,6 @@ h2 {
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
-}
-
-.quotation-header {
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .quotation-header-info {

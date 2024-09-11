@@ -33,31 +33,10 @@ const QuotationDisplay = () => {
   // Fetch data or use mock data on component mount
   useEffect(() => {
     setProductList(mockProducts);
-
-    // Load quotation data from local storage
-    const storedQuotation = localStorage.getItem('quotation');
-    if (storedQuotation) {
-      const parsedQuotation = JSON.parse(storedQuotation);
-      setInvoiceNumber(parsedQuotation.invoiceNumber);
-      setDateTime(parsedQuotation.dateTime);
-      setQuotation(parsedQuotation.products);
-    } else {
-      const newInvoiceNumber = generateInvoiceNumber();
-      setInvoiceNumber(newInvoiceNumber);
-      const now = new Date();
-      setDateTime(now.toLocaleString());
-    }
+    setInvoiceNumber(generateInvoiceNumber());
+    const now = new Date();
+    setDateTime(now.toLocaleString());
   }, []);
-
-  useEffect(() => {
-    // Update local storage whenever the quotation changes
-    localStorage.setItem('quotation', JSON.stringify({
-      invoiceNumber,
-      dateTime,
-      products: quotation,
-      totalAmount: calculateTotal(),
-    }));
-  }, [quotation, invoiceNumber, dateTime]);
 
   // Handle search functionality for product name or specs
   const handleSearch = () => {
@@ -155,17 +134,19 @@ const QuotationDisplay = () => {
   };
 
   // Share options
-  const handleShare = () => {
-    const url = generateQRCodeData();
-    const encodedUrl = encodeURIComponent(url);
+  const handleShare = async () => {
+    // Generate the PDF first
+    generatePDF();
+
+    // Share the PDF via email and WhatsApp
     const emailSubject = `Quotation ${invoiceNumber}`;
-    const emailBody = `Please find the attached quotation: ${url}`;
-    const whatsappMessage = `Here is your quotation: ${url}`;
-    
-    // Sharing via email
+    const emailBody = `Please find the attached quotation PDF.`;
+    const whatsappMessage = `Here is your quotation PDF.`;
+
+    // Open email client with the subject and body
     window.open(`mailto:?subject=${emailSubject}&body=${emailBody}`, '_blank');
-    
-    // Sharing via WhatsApp
+
+    // Open WhatsApp with the message
     window.open(`https://wa.me/?text=${whatsappMessage}`, '_blank');
   };
 
@@ -250,7 +231,7 @@ const QuotationDisplay = () => {
               <button onClick={handleShare}>Share</button>
             </div>
           ) : (
-            <p>No products in the quotation.</p>
+            <p>No products added to the quotation.</p>
           )}
         </div>
       </div>

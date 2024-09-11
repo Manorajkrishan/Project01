@@ -5,6 +5,7 @@ import Footer from './Components/Footer';
 import Home from './Components/Home';
 import QuotationDisplay from './Components/Quotationdisplay';
 import InventoryManagement from './Components/InventoryManagement'; // Import InventoryManagement
+import QuotationPage from './Components/QuotationPage'; // Import the new component
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/quotation" element={<QuotationDisplay />} />
-          <Route path="/inventory" element={<InventoryManagement />} /> {/* Add this route */}
+          <Route path="/inventory" element={<InventoryManagement />} />
+          <Route path="/quotation/:id" element={<QuotationPage />} /> {/* Add this route */}
         </Routes>
-       
+        <Footer />
       </div>
     </Router>
   );
